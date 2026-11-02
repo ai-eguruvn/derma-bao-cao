@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="shopify-api-key" content="__CLIENT_ID__">
+<title>Báo cáo kinh doanh</title>
+<script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+<style>
+  :root{--bg:#f1f1f1;--card:#fff;--ink:#303030;--mute:#616161;--line:#e3e3e3;--accent:#005bd3;--good:#0a7d3e;--bad:#b42318;--soft:#f6f6f7}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:1100px;margin:0 auto;padding:20px 16px 48px}
+  header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+  h1{font-size:20px;margin:0}
+  .sub{color:var(--mute);font-size:13px;margin:2px 0 0}
+  .ctl{display:flex;gap:8px;align-items:center}
+  select,button{font:inherit;border:1px solid #c9cccf;border-radius:8px;background:#fff;padding:6px 10px;cursor:pointer}
+  .seg button{border-radius:0;margin-left:-1px}.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0}
+  .seg button.on{background:#303030;color:#fff;border-color:#303030}
+  .guide{background:#eaf4ff;border:1px solid #b6d4fe;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+  .guide b{display:block;margin-bottom:4px}
+  .guide ol{margin:4px 0 0;padding-left:20px}
+  section{background:var(--card);border-radius:12px;box-shadow:0 1px 0 rgba(0,0,0,.07);padding:16px;margin-bottom:16px}
+  .sec-h{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:baseline}
+  h2{font-size:16px;margin:0}
+  .num{font-size:12px;color:#fff;background:#303030;border-radius:999px;padding:1px 8px;margin-right:6px}
+  a.src{font-size:13px;color:var(--accent);text-decoration:none}
+  a.src:hover{text-decoration:underline}
+  details{margin:8px 0 12px;background:var(--soft);border-radius:8px;padding:8px 12px}
+  summary{cursor:pointer;font-weight:600}
+  details ul{margin:6px 0 0;padding-left:18px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
+  .kpi{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .kpi .l{color:var(--mute);font-size:12px}
+  .kpi .v{font-size:20px;font-weight:650;margin-top:2px}
+  .kpi .d{font-size:12px;margin-top:2px}
+  .up{color:var(--good)}.down{color:var(--bad)}
+  .tbl{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--mute);font-weight:600;background:var(--soft)}
+  tr.tot td{font-weight:700;border-top:2px solid #c9cccf}
+  .note{font-size:12px;color:var(--mute);margin-top:8px}
+  .warn{background:#fff4e5;border:1px solid #ffd79d;border-radius:8px;padding:8px 12px;font-size:13px;margin-top:10px}
+  .err{color:var(--bad)}
+  .muted{color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1 data-t="title"></h1>
+      <p class="sub" data-t="subtitle"></p>
+    </div>
+    <div class="ctl">
+      <select id="month" aria-label="Tháng"></select>
+      <div class="seg"><button id="vi" class="on">VI</button><button id="en">EN</button></div>
+    </div>
+  </header>
+
+  <div class="guide">
+    <b data-t="guideH"></b>
+    <ol>
+      <li data-t="g1"></li>
+      <li data-t="g2"></li>
+      <li data-t="g3"></li>
+    </ol>
+  </div>
+
+  <section id="s1">
+    <div class="sec-h">
+      <h2><span class="num">1</span><span data-t="s1h"></span></h2>
+      <a class="src" id="s1src" target="_top" data-t="open"></a>
+    </div>
+    <details><summary data-t="how"></summary><ul>
+      <li data-t="s1a"></li><li data-t="s1b"></li><li data-t="s1c"></li><li data-t="s1d"></li>
+    </ul></details>
+    <div class="kpis" id="s1k"></div>
+    <div class="tbl" id="s1t"><p class="muted" data-t="loading"></p></div>
+  </section>
+
+  <section id="s2">
+    <div class="sec-h">
+      <h2><span class="num">2</span><span data-t="s2h"></span></h2>
+      <a class="src" id="s2src" target="_top" data-t="open"></a>
+    </div>
+    <details><summary data-t="how"></summary><ul>
+      <li data-t="s2a"></li><li data-t="s2b"></li><li data-t="s2c"></li><li data-t="s2d"></li>
+    </ul></details>
+    <div class="tbl" id="s2t"><p class="muted" data-t="loading"></p></div>
+    <div class="warn" data-t="s2warn"></div>
+  </section>
+
+  <p class="note" data-t="foot"></p>
+</div>
+
+<script>
+const T = {
+  vi: {
+    title: "Báo cáo kinh doanh web shop",
+    subtitle: "Số đọc trực tiếp từ Shopify Analytics của cửa hàng — cùng công thức với mục Analytics › Reports.",
+    guideH: "Cách dùng trang này",
+    g1: "Chọn tháng ở góc phải. Tháng đang chạy chỉ tính tới hôm nay.",
+    g2: "Mỗi mục có “Cách đọc số” giải thích con số lấy ở đâu và tính thế nào.",
+    g3: "Muốn tự kiểm: bấm “Mở báo cáo gốc trong Shopify” — Shopify hiện đúng các số này với cùng khoảng ngày.",
+    s1h: "Doanh thu tháng",
+    s2h: "Kênh đưa khách tới và đơn hàng",
+    open: "Mở báo cáo gốc trong Shopify ↗",
+    how: "Cách đọc số",
+    loading: "Đang tải số liệu…",
+    s1a: "Doanh thu ròng = Tiền hàng − Giảm giá − Hoàn trả. Không gồm phí giao hàng và thuế.",
+    s1b: "Online Store = khách tự đặt trên website. Draft Orders = đơn nhân viên tạo tay (chat Facebook, sự kiện…).",
+    s1c: "Hoàn trả được tính vào tháng phát sinh hoàn trả, không phải tháng đặt đơn. Đơn thử đã huỷ nằm ở cột này.",
+    s1d: "Ô so sánh là so với tháng liền trước, cùng cách tính.",
+    s2a: "Mỗi đơn được ghi cho kênh của lần bấm gần nhất trước khi mua, không tính lần vào thẳng web (Shopify gọi là “last non-direct click”).",
+    s2b: "Vì cách ghi này, số đơn ở đây có thể khác số đơn Meta/Google tự báo — hai nền tảng đó tự tính theo cách riêng (kể cả người chỉ xem quảng cáo).",
+    s2c: "Tiền chi quảng cáo chỉ có khi nền tảng gửi về Shopify. Hiện chỉ TikTok gửi; Meta và Google chưa gửi.",
+    s2d: "Lượt truy cập có thể là người thật hoặc máy quét; Shopify đã lọc bớt máy quét từ 21/09/2026.",
+    s2warn: "Lưu ý: tiền chi TikTok chủ yếu cho bán hàng trên TikTok Shop, không đưa khách về website — đừng chia doanh thu web cho số tiền này. Tiền chi Meta/Google hiện chưa có trong Shopify nên ô Tiền chi của hai kênh này để trống.",
+    foot: "Số liệu từ Shopify Analytics, cửa hàng Dermalogica Vietnam, đơn vị VND. Bản demo.",
+    k_net: "Doanh thu ròng", k_ord: "Số đơn", k_aov: "Giá trị TB/đơn", k_web: "Trong đó: đặt trên web",
+    vsPrev: "so với tháng trước", total: "Tổng",
+    c_channel: "Kênh bán", c_orders: "Đơn", c_gross: "Tiền hàng", c_disc: "Giảm giá", c_ret: "Hoàn trả", c_net: "Doanh thu ròng", c_aov: "TB/đơn",
+    m_channel: "Kênh đưa khách tới", m_sessions: "Lượt truy cập", m_orders: "Đơn", m_sales: "Doanh thu", m_cr: "Tỉ lệ ra đơn", m_spend: "Tiền chi QC", m_roas: "Doanh thu / tiền chi",
+    others: "Các nguồn khác", toDate: " (tới hôm nay)", monthLbl: "Tháng",
+    err: "Không đọc được số liệu: "
+  },
+  en: {
+    title: "Web shop business report",
+    subtitle: "Figures are read live from the store's Shopify Analytics — same formulas as Analytics › Reports.",
+    guideH: "How to use this page",
+    g1: "Pick a month at the top right. The current month runs up to today.",
+    g2: "Each section has “How to read” explaining where each figure comes from.",
+    g3: "To check: click “Open the source report in Shopify” — Shopify shows the same figures for the same dates.",
+    s1h: "Monthly sales",
+    s2h: "Traffic channels and orders",
+    open: "Open the source report in Shopify ↗",
+    how: "How to read",
+    loading: "Loading…",
+    s1a: "Net sales = Gross sales − Discounts − Returns. Excludes shipping and taxes.",
+    s1b: "Online Store = customers ordering on the website. Draft Orders = orders created by staff (Facebook chat, events…).",
+    s1c: "Returns are counted in the month the return happens, not the order month. Cancelled test orders appear here.",
+    s1d: "Comparisons are against the previous month, same method.",
+    s2a: "Each order is credited to the last click before purchase, ignoring direct visits (Shopify's “last non-direct click”).",
+    s2b: "Because of this, order counts may differ from what Meta/Google report — those platforms use their own rules (including view-through).",
+    s2c: "Ad spend only appears when the platform sends it to Shopify. Currently only TikTok does; Meta and Google do not.",
+    s2d: "Sessions may include bots; Shopify filters more bots since 21 Sep 2026.",
+    s2warn: "Note: TikTok spend mostly drives TikTok Shop sales, not website visits — do not divide web sales by it. Meta/Google spend is not in Shopify yet, so their spend cells are empty.",
+    foot: "Data from Shopify Analytics, Dermalogica Vietnam store, in VND. Demo version.",
+    k_net: "Net sales", k_ord: "Orders", k_aov: "Avg. order value", k_web: "Of which: website",
+    vsPrev: "vs previous month", total: "Total",
+    c_channel: "Sales channel", c_orders: "Orders", c_gross: "Gross sales", c_disc: "Discounts", c_ret: "Returns", c_net: "Net sales", c_aov: "AOV",
+    m_channel: "Traffic channel", m_sessions: "Sessions", m_orders: "Orders", m_sales: "Sales", m_cr: "Conversion", m_spend: "Ad spend", m_roas: "Sales / spend",
+    others: "Other sources", toDate: " (to date)", monthLbl: "Month",
+    err: "Could not load data: "
+  }
+};
+let L = "vi";
+const $ = s => document.querySelector(s);
+const fmt = n => (n == null || isNaN(n)) ? "—" : new Intl.NumberFormat("vi-VN").format(Math.round(n));
+const vnd = n => (n == null || isNaN(n)) ? "—" : fmt(n) + " ₫";
+const pct = n => (n == null || isNaN(n) || !isFinite(n)) ? "—" : (n * 100).toFixed(2).replace(".", L === "vi" ? "," : ".") + "%";
+const pad = n => String(n).padStart(2, "0");
+const iso = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+
+function months() {
+  const now = new Date(), out = [];
+  for (let i = 0; i < 6; i++) {
+    const s = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const e = i === 0 ? now : new Date(s.getFullYear(), s.getMonth() + 1, 0);
+    out.push({ s: iso(s), e: iso(e), m: s.getMonth() + 1, y: s.getFullYear(), cur: i === 0 });
+  }
+  return out;
+}
+const MONTHS = months();
+
+function applyText() {
+  document.documentElement.lang = L;
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = T[L][el.dataset.t]; });
+  $("#vi").classList.toggle("on", L === "vi"); $("#en").classList.toggle("on", L === "en");
+  const sel = $("#month"), keep = sel.value;
+  sel.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${L === "vi" ? "Tháng " + m.m + "/" + m.y : new Date(m.y, m.m - 1, 1).toLocaleString("en", { month: "long", year: "numeric" })}${m.cur ? T[L].toDate : ""}</option>`).join("");
+  sel.value = keep || "1";
+}
+
+async function ql(query) {
+  const res = await fetch("shopify:admin/api/2026-01/graphql.json", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: "query($q:String!){ shopifyqlQuery(query:$q){ parseErrors tableData{ columns{ name dataType } rows } } }", variables: { q: query } })
+  });
+  const j = await res.json();
+  if (j.errors) throw new Error(j.errors.map(e => e.message).join("; "));
+  const r = j.data.shopifyqlQuery;
+  if (r.parseErrors && r.parseErrors.length) throw new Error(JSON.stringify(r.parseErrors));
+  const cols = r.tableData.columns.map(c => c.name);
+  let rows = r.tableData.rows;
+  if (typeof rows === "string") rows = JSON.parse(rows);
+  return rows.map(row => Array.isArray(row) ? Object.fromEntries(cols.map((c, i) => [c, row[i]])) : row);
+}
+const num = v => v == null || v === "" ? null : Number(v);
+const adminLink = (report, q) => "shopify://admin/analytics/reports/" + report + "?ql=" + encodeURIComponent(q);
+
+const qSales = (m) => `FROM sales
+  SHOW orders, gross_sales, discounts, returns, net_sales, average_order_value
+  GROUP BY sales_channel WITH TOTALS
+  SINCE ${m.s} UNTIL ${m.e}
+  ORDER BY net_sales DESC`;
+const qMkt = (m) => `FROM sessions, sales, marketing_engagements
+  SHOW total_sales, sessions, orders, (orders / sessions) AS conversion_rate, engagements_ad_spend, (total_sales / engagements_ad_spend) AS ROAS
+  GROUP BY marketing_channel WITH LAST_NON_DIRECT_CLICK_ATTRIBUTION, TOTALS
+  SINCE ${m.s} UNTIL ${m.e}
+  ORDER BY total_sales__last_non_direct_click DESC, sessions DESC
+  LIMIT 1000`;
+
+function pick(row, base) { // cột có hậu tố ghi nhận (vd total_sales__last_non_direct_click)
+  if (base in row) return row[base];
+  const k = Object.keys(row).find(k => k.startsWith(base + "__") && !k.includes("totals"));
+  return k ? row[k] : undefined;
+}
+function isTotalRow(row, dim) { return row[dim] == null || row[dim] === "" ; }
+function delta(cur, prev) {
+  if (!prev) return "";
+  const d = (cur - prev) / prev, cls = d >= 0 ? "up" : "down";
+  return `<span class="${cls}">${d >= 0 ? "▲" : "▼"} ${pct(Math.abs(d))}</span> ${T[L].vsPrev}`;
+}
+
+async function loadS1(m, prev) {
+  const [rows, prow] = await Promise.all([ql(qSales(m)), ql(qSales(prev))]);
+  const tot = rows.find(r => isTotalRow(r, "sales_channel")) || {};
+  const ptot = prow.find(r => isTotalRow(r, "sales_channel")) || {};
+  const body = rows.filter(r => !isTotalRow(r, "sales_channel"));
+  const web = body.find(r => r.sales_channel === "Online Store") || {};
+  const pweb = prow.find(r => r.sales_channel === "Online Store") || {};
+  $("#s1k").innerHTML = [
+    [T[L].k_net, vnd(num(tot.net_sales)), delta(num(tot.net_sales), num(ptot.net_sales))],
+    [T[L].k_ord, fmt(num(tot.orders)), delta(num(tot.orders), num(ptot.orders))],
+    [T[L].k_aov, vnd(num(tot.average_order_value)), delta(num(tot.average_order_value), num(ptot.average_order_value))],
+    [T[L].k_web, vnd(num(web.net_sales)), delta(num(web.net_sales), num(pweb.net_sales))]
+  ].map(([l, v, d]) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
+  const tr = (r, cls = "") => `<tr class="${cls}"><td>${r.sales_channel || T[L].total}</td><td>${fmt(num(r.orders))}</td><td>${vnd(num(r.gross_sales))}</td><td>${vnd(num(r.discounts))}</td><td>${vnd(num(r.returns))}</td><td><b>${vnd(num(r.net_sales))}</b></td><td>${vnd(num(r.average_order_value))}</td></tr>`;
+  $("#s1t").innerHTML = `<table><thead><tr><th>${T[L].c_channel}</th><th>${T[L].c_orders}</th><th>${T[L].c_gross}</th><th>${T[L].c_disc}</th><th>${T[L].c_ret}</th><th>${T[L].c_net}</th><th>${T[L].c_aov}</th></tr></thead><tbody>${body.map(r => tr(r)).join("")}${tr(tot, "tot")}</tbody></table>`;
+  $("#s1src").href = adminLink("net_sales_over_time", qSales(m));
+}
+
+async function loadS2(m) {
+  const rows = await ql(qMkt(m));
+  const tot = rows.find(r => isTotalRow(r, "marketing_channel")) || {};
+  let body = rows.filter(r => !isTotalRow(r, "marketing_channel"));
+  const keep = body.filter((r, i) => i < 8 || num(pick(r, "engagements_ad_spend")) > 0 || num(pick(r, "orders")) > 0);
+  const rest = body.filter(r => !keep.includes(r));
+  const restRow = rest.length ? { marketing_channel: T[L].others + " (" + rest.length + ")", sessions: rest.reduce((a, r) => a + (num(r.sessions) || 0), 0), _o: 0, _s: 0 } : null;
+  const tr = (r, cls = "") => {
+    const spend = num(pick(r, "engagements_ad_spend")), sales = num(pick(r, "total_sales")), orders = num(pick(r, "orders"));
+    const roas = spend ? sales / spend : null;
+    return `<tr class="${cls}"><td>${r.marketing_channel || T[L].total}</td><td>${fmt(num(r.sessions))}</td><td>${fmt(orders ?? r._o)}</td><td>${vnd(sales ?? r._s)}</td><td>${pct(num(pick(r, "conversion_rate")))}</td><td>${spend ? vnd(spend) : "—"}</td><td>${roas != null && cls !== "tot" ? roas.toFixed(2) : "—"}</td></tr>`;
+  };
+  $("#s2t").innerHTML = `<table><thead><tr><th>${T[L].m_channel}</th><th>${T[L].m_sessions}</th><th>${T[L].m_orders}</th><th>${T[L].m_sales}</th><th>${T[L].m_cr}</th><th>${T[L].m_spend}</th><th>${T[L].m_roas}</th></tr></thead><tbody>${keep.map(r => tr(r)).join("")}${restRow ? tr(restRow) : ""}${tr(tot, "tot")}</tbody></table>`;
+  $("#s2src").href = adminLink("performance_by_marketing_channel", qMkt(m));
+}
+
+async function load() {
+  const i = +$("#month").value, m = MONTHS[i];
+  const prev = MONTHS[i + 1] || (() => { const s = new Date(m.y, m.m - 2, 1); return { s: iso(s), e: iso(new Date(m.y, m.m - 1, 0)) }; })();
+  ["#s1t", "#s2t"].forEach(s => $(s).innerHTML = `<p class="muted">${T[L].loading}</p>`);
+  $("#s1k").innerHTML = "";
+  loadS1(m, prev).catch(e => $("#s1t").innerHTML = `<p class="err">${T[L].err}${e.message}</p>`);
+  loadS2(m).catch(e => $("#s2t").innerHTML = `<p class="err">${T[L].err}${e.message}</p>`);
+}
+
+$("#vi").onclick = () => { L = "vi"; applyText(); load(); };
+$("#en").onclick = () => { L = "en"; applyText(); load(); };
+$("#month").onchange = load;
+applyText(); load();
+</script>
+</body>
+</html>
