@@ -133,14 +133,14 @@ const T = {
     g3: "Muốn tự kiểm: bấm “Mở báo cáo gốc trong Shopify” — Shopify hiện đúng các số này với cùng khoảng ngày.",
     s1h: "Doanh thu tháng",
     s2h: "Khách đến từ đâu và có mua không",
-    s3h: "Quảng cáo Facebook / Google theo từng chiến dịch",
+    s3h: "Quảng cáo theo từng chiến dịch (link có mã UTM)",
     c1h: "Doanh thu ròng 6 tháng gần nhất (triệu ₫) — rê chuột vào cột để xem số",
     c2h: "Cần bao nhiêu lượt truy cập để có 1 đơn (càng ngắn càng tốt)",
     c3h: "Lượt truy cập theo chiến dịch",
     s3a: "Số đọc từ mã theo dõi (UTM) gắn trên link quảng cáo: nền tảng = utm_source, chiến dịch = utm_campaign.",
     s3b: "Đếm theo LƯỢT TRUY CẬP: vào web → có thêm giỏ → tới trang thanh toán.",
     s3c: "Shopify không gắn tên chiến dịch vào đơn hàng, nên bảng này chưa có cột Đơn. Đơn theo nguồn xem ở mục 2.",
-    s3d: "Chiến dịch có tên là dãy số là link Facebook gắn ID chiến dịch thay vì tên — nên thống nhất một chuẩn đặt UTM.",
+    s3d: "Chiến dịch có tên là dãy số là link Facebook gắn ID chiến dịch thay vì tên — nên thống nhất một chuẩn đặt UTM. Google Ads gắn mã kiểu khác (gclid) nên không hiện ở bảng này; lượt từ Google xem ở mục 2.",
     t_src: "Nền tảng", t_med: "Loại", t_camp: "Chiến dịch", t_rate: "Tỉ lệ thêm giỏ", t_need: "lượt / 1 đơn", noutm: "(không có UTM)",
     open: "Mở báo cáo gốc trong Shopify ↗",
     how: "Cách đọc số",
@@ -171,14 +171,14 @@ const T = {
     g3: "To check: click “Open the source report in Shopify” — Shopify shows the same figures for the same dates.",
     s1h: "Monthly sales",
     s2h: "Where visitors come from and whether they buy",
-    s3h: "Facebook / Google ads by campaign",
+    s3h: "Ads by campaign (links with UTM tags)",
     c1h: "Net sales, last 6 months (million ₫) — hover a bar for figures",
     c2h: "Sessions needed for one order (shorter is better)",
     c3h: "Sessions by campaign",
     s3a: "Read from the tracking tags (UTM) on ad links: platform = utm_source, campaign = utm_campaign.",
     s3b: "Counted in SESSIONS: visit → added to cart → reached checkout.",
     s3c: "Shopify does not attach the campaign name to orders, so there is no Orders column here. Orders by source are in section 2.",
-    s3d: "Campaigns named as numbers are Facebook links carrying the campaign ID instead of its name — one UTM naming standard is recommended.",
+    s3d: "Campaigns named as numbers are Facebook links carrying the campaign ID instead of its name — one UTM naming standard is recommended. Google Ads tags links differently (gclid), so it does not show here; Google visits are in section 2.",
     t_src: "Platform", t_med: "Type", t_camp: "Campaign", t_rate: "Add-to-cart rate", t_need: "sessions / order", noutm: "(no UTM)",
     open: "Open the source report in Shopify ↗",
     how: "How to read",
@@ -363,7 +363,7 @@ function stackedBars(el, cats, series, selIdx) {
 
 function hBars(el, items, color) {
   if (!items.length) { el.innerHTML = ""; return; }
-  const W = 760, LW = 250, R = 110, rowH = 30, H = items.length * rowH + 6;
+  const W = 760, LW = 250, R = 170, rowH = 30, H = items.length * rowH + 6;
   const max = Math.max(...items.map(i => i.value), 1), iw = W - LW - R;
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
   items.forEach((it, i) => {
