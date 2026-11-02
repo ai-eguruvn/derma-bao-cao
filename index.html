@@ -113,10 +113,12 @@
     <details><summary data-t="how"></summary><ul>
       <li data-t="s3a"></li><li data-t="s3b"></li><li data-t="s3c"></li><li data-t="s3d"></li>
     </ul></details>
+    <div class="kpis" id="s3k"></div>
     <p class="chart-h" data-t="c3h"></p>
+    <div class="legend"><span><i style="background:var(--s1)"></i><span data-t="lg_web"></span></span><span><i style="background:#b5b4ad"></i><span data-t="lg_noweb"></span></span></div>
     <div class="chart" id="s3c"></div>
     <div class="tbl" id="s3t"><p class="muted" data-t="loading"></p></div>
-    <div class="warn" data-t="s2warn"></div>
+    <p class="note" id="s3upd"></p>
   </section>
 
   <p class="note" data-t="foot"></p>
@@ -133,15 +135,19 @@ const T = {
     g3: "Muốn tự kiểm: bấm “Mở báo cáo gốc trong Shopify” — Shopify hiện đúng các số này với cùng khoảng ngày.",
     s1h: "Doanh thu tháng",
     s2h: "Khách đến từ đâu và có mua không",
-    s3h: "Quảng cáo theo từng chiến dịch (link có mã UTM)",
+    s3h: "Quảng cáo Facebook: tiền chi và kết quả trên web",
     c1h: "Doanh thu ròng 6 tháng gần nhất (triệu ₫) — rê chuột vào cột để xem số",
     c2h: "Cần bao nhiêu lượt truy cập để có 1 đơn (càng ngắn càng tốt)",
-    c3h: "Lượt truy cập theo chiến dịch",
-    s3a: "Số đọc từ mã theo dõi (UTM) gắn trên link quảng cáo: nền tảng = utm_source, chiến dịch = utm_campaign.",
-    s3b: "Đếm theo LƯỢT TRUY CẬP: vào web → có thêm giỏ → tới trang thanh toán.",
-    s3c: "Shopify không gắn tên chiến dịch vào đơn hàng, nên bảng này chưa có cột Đơn. Đơn theo nguồn xem ở mục 2.",
-    s3d: "Chiến dịch có tên là dãy số là link Facebook gắn ID chiến dịch thay vì tên — nên thống nhất một chuẩn đặt UTM. Google Ads gắn mã kiểu khác (gclid) nên không hiện ở bảng này; lượt từ Google xem ở mục 2.",
+    c3h: "Tiền chi theo chiến dịch (triệu ₫)",
+    s3a: "Tiền chi, lượt hiển thị, lượt bấm link: lấy từ Meta Ads Manager, tài khoản Dermalogica Official. Lượt truy cập, thêm giỏ, tới thanh toán: Shopify, ghép theo tên chiến dịch (mã UTM trên link quảng cáo).",
+    s3b: "“Dẫn về web” = chiến dịch có khách vào website. Chiến dịch form đăng ký, tin nhắn, tuyển đại lý/salon không dẫn về web nên không có lượt truy cập — không phải lỗi.",
+    s3c: "Shopify không gắn tên chiến dịch vào đơn, nên đơn tính chung cho Facebook (ô “Đơn ghi nguồn Facebook”, cùng số với mục 2). Không dùng số “lượt mua” do Meta tự báo.",
+    s3d: "Lượt bấm link (Meta) nhiều hơn lượt truy cập (Shopify) là bình thường: người bấm rồi thoát trước khi trang tải xong thì Shopify không đếm.",
     t_src: "Nền tảng", t_med: "Loại", t_camp: "Chiến dịch", t_rate: "Tỉ lệ thêm giỏ", t_need: "lượt / 1 đơn", noutm: "(không có UTM)",
+    lg_web: "Dẫn về web", lg_noweb: "Không dẫn về web (form, tin nhắn, B2B, salon…)",
+    t_spend: "Tiền chi", t_imp: "Lượt hiển thị", t_clk: "Lượt bấm link (Meta)", t_visit: "Lượt truy cập web", t_cpv: "Chi phí / lượt truy cập",
+    k_spend: "Tổng tiền chi Facebook", k_spweb: "Trong đó: chiến dịch dẫn về web", k_fbord: "Đơn ghi nguồn Facebook", k_cpo: "Chi phí / đơn web từ Facebook",
+    upd: "Tiền chi Meta: bản chép từ Ads Manager lúc ", noMeta: "Chưa có số tiền chi Meta cho tháng này.",
     open: "Mở báo cáo gốc trong Shopify ↗",
     how: "Cách đọc số",
     loading: "Đang tải số liệu…",
@@ -171,15 +177,19 @@ const T = {
     g3: "To check: click “Open the source report in Shopify” — Shopify shows the same figures for the same dates.",
     s1h: "Monthly sales",
     s2h: "Where visitors come from and whether they buy",
-    s3h: "Ads by campaign (links with UTM tags)",
+    s3h: "Facebook ads: spend and website results",
     c1h: "Net sales, last 6 months (million ₫) — hover a bar for figures",
     c2h: "Sessions needed for one order (shorter is better)",
-    c3h: "Sessions by campaign",
-    s3a: "Read from the tracking tags (UTM) on ad links: platform = utm_source, campaign = utm_campaign.",
-    s3b: "Counted in SESSIONS: visit → added to cart → reached checkout.",
-    s3c: "Shopify does not attach the campaign name to orders, so there is no Orders column here. Orders by source are in section 2.",
-    s3d: "Campaigns named as numbers are Facebook links carrying the campaign ID instead of its name — one UTM naming standard is recommended. Google Ads tags links differently (gclid), so it does not show here; Google visits are in section 2.",
+    c3h: "Spend by campaign (million ₫)",
+    s3a: "Spend, impressions, link clicks: Meta Ads Manager, account Dermalogica Official. Sessions, add to cart, checkout: Shopify, matched by campaign name (UTM tag on the ad link).",
+    s3b: "“Drives to website” = campaigns that bring visitors to the site. Lead-form, messaging, partner/salon recruitment campaigns do not, so they have no sessions — not an error.",
+    s3c: "Shopify does not attach campaign names to orders, so orders are counted for Facebook as a whole (“Orders sourced from Facebook”, same as section 2). Meta's self-reported purchases are not used.",
+    s3d: "Link clicks (Meta) exceeding sessions (Shopify) is normal: people who click and leave before the page loads are not counted by Shopify.",
     t_src: "Platform", t_med: "Type", t_camp: "Campaign", t_rate: "Add-to-cart rate", t_need: "sessions / order", noutm: "(no UTM)",
+    lg_web: "Drives to website", lg_noweb: "Not to website (lead form, messaging, B2B, salon…)",
+    t_spend: "Spend", t_imp: "Impressions", t_clk: "Link clicks (Meta)", t_visit: "Website sessions", t_cpv: "Cost / session",
+    k_spend: "Total Facebook spend", k_spweb: "Of which: campaigns to website", k_fbord: "Orders sourced from Facebook", k_cpo: "Cost per web order from Facebook",
+    upd: "Meta spend: copied from Ads Manager at ", noMeta: "No Meta spend data for this month yet.",
     open: "Open the source report in Shopify ↗",
     how: "How to read",
     loading: "Loading…",
@@ -370,7 +380,7 @@ function hBars(el, items, color) {
     const yy = 4 + i * rowH, w = Math.max(2, it.value / max * iw);
     const lab = it.label.length > 38 ? it.label.slice(0, 36) + "…" : it.label;
     s += `<text x="${LW - 8}" y="${yy + 17}" text-anchor="end" font-size="12" fill="var(--ink)">${esc(lab)}</text>`;
-    s += `<path d="M${LW},${yy + 5}H${LW + w - 4}Q${LW + w},${yy + 5} ${LW + w},${yy + 9}V${yy + 19}Q${LW + w},${yy + 23} ${LW + w - 4},${yy + 23}H${LW}Z" fill="${color}"/>`;
+    s += `<path d="M${LW},${yy + 5}H${LW + w - 4}Q${LW + w},${yy + 5} ${LW + w},${yy + 9}V${yy + 19}Q${LW + w},${yy + 23} ${LW + w - 4},${yy + 23}H${LW}Z" fill="${it.color || color}"/>`;
     s += `<text x="${LW + w + 6}" y="${yy + 18}" font-size="12" fill="var(--mute)">${esc(it.text)}</text>`;
     s += `<rect class="hit" data-i="${i}" x="0" y="${yy}" width="${W}" height="${rowH}" fill="transparent"/>`;
   });
@@ -401,12 +411,37 @@ const qCamp = (m) => `FROM sessions
   SINCE ${m.s} UNTIL ${m.e}
   ORDER BY sessions DESC
   LIMIT 1000`;
+let META = null;
+async function metaData() {
+  if (META) return META;
+  const res = await fetch("shopify:admin/api/2026-01/graphql.json", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: '{ shop { metafield(namespace:"$app", key:"meta_ads"){ value } } }' }) });
+  const j = await res.json(), v = j.data && j.data.shop && j.data.shop.metafield && j.data.shop.metafield.value;
+  META = v ? JSON.parse(v) : { months: {} };
+  return META;
+}
+const norm = s => String(s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
 async function loadS3(m) {
-  const rows = await ql(qCamp(m));
-  const top = rows.slice(0, 10);
-  hBars($("#s3c"), top.map(r => ({ label: r.utm_campaign, value: num(r.sessions) || 0, text: fmt(num(r.sessions)), tip: `${esc(r.utm_source || "")} / ${esc(r.utm_medium || "")}<br>${T[L].m_sessions}: ${fmt(num(r.sessions))}<br>${T[L].m_cart}: ${fmt(num(r.sessions_with_cart_additions))}<br>${T[L].m_chk}: ${fmt(num(r.sessions_that_reached_checkout))}` })), "var(--s1)");
-  const tr = r => { const s = num(r.sessions), c = num(r.sessions_with_cart_additions); return `<tr><td>${esc(r.utm_campaign)}</td><td>${esc(r.utm_source || "—")}</td><td>${esc(r.utm_medium || "—")}</td><td>${fmt(s)}</td><td>${fmt(c)}</td><td>${fmt(num(r.sessions_that_reached_checkout))}</td><td>${s ? pct(c / s) : "—"}</td></tr>`; };
-  $("#s3t").innerHTML = rows.length ? `<table><thead><tr><th>${T[L].t_camp}</th><th>${T[L].t_src}</th><th>${T[L].t_med}</th><th>${T[L].m_sessions}</th><th>${T[L].m_cart}</th><th>${T[L].m_chk}</th><th>${T[L].t_rate}</th></tr></thead><tbody>${top.map(tr).join("")}</tbody></table>${rows.length > 10 ? `<p class="note">+ ${rows.length - 10} ${T[L].others.toLowerCase()}</p>` : ""}` : `<p class="muted">—</p>`;
+  const [rows, meta, orows] = await Promise.all([ql(qCamp(m)), metaData(), ql(qOrdSrc(m))]);
+  const spend = (meta.months || {})[m.y + "-" + pad(m.m)] || [];
+  const map = new Map(), blank = name => ({ name, s: 0, i: 0, k: 0, v: 0, c: 0, ch: 0 });
+  spend.forEach(x => { const k = norm(x.c), g = map.get(k) || blank(x.c); g.s += x.s; g.i += x.i; g.k += x.k; map.set(k, g); });
+  rows.filter(r => /^(facebook|fb|ig|instagram)/i.test(r.utm_source || "")).forEach(r => { const k = norm(r.utm_campaign), g = map.get(k) || blank(r.utm_campaign); g.v += num(r.sessions) || 0; g.c += num(r.sessions_with_cart_additions) || 0; g.ch += num(r.sessions_that_reached_checkout) || 0; map.set(k, g); });
+  const all = [...map.values()].sort((a, b) => b.s - a.s || b.v - a.v);
+  const totS = all.reduce((a, g) => a + g.s, 0), webS = all.filter(g => g.v > 0).reduce((a, g) => a + g.s, 0);
+  const fbOrd = orows.filter(r => ["facebook", "instagram"].includes(srcKey(r.order_referrer_source, r.order_referrer_name))).reduce((a, r) => a + (num(r.orders) || 0), 0);
+  $("#s3k").innerHTML = [
+    [T[L].k_spend, spend.length ? vnd(totS) : "—"],
+    [T[L].k_spweb, spend.length ? vnd(webS) : "—"],
+    [T[L].k_fbord, fmt(fbOrd)],
+    [T[L].k_cpo, spend.length && fbOrd ? vnd(webS / fbOrd) : "—"]
+  ].map(([l, v]) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div></div>`).join("");
+  const bars = all.filter(g => g.s > 0).slice(0, 12).map(g => ({ label: g.name, value: g.s, color: g.v > 0 ? "var(--s1)" : "#b5b4ad", text: (g.s / 1e6).toFixed(1).replace(".", L === "vi" ? "," : "."), tip: `${T[L].t_spend}: ${vnd(g.s)}<br>${T[L].t_clk}: ${fmt(g.k)}<br>${T[L].t_visit}: ${g.v ? fmt(g.v) : "—"}<br>${T[L].m_cart}: ${g.v ? fmt(g.c) : "—"}` }));
+  if (bars.length) hBars($("#s3c"), bars, "var(--s1)"); else $("#s3c").innerHTML = `<p class="muted">${T[L].noMeta}</p>`;
+  const show = all.filter(g => g.s > 0 || g.v >= 300);
+  const tr = g => `<tr><td>${esc(g.name)}</td><td>${g.s ? vnd(g.s) : "—"}</td><td>${g.s ? fmt(g.i) : "—"}</td><td>${g.s ? fmt(g.k) : "—"}</td><td><b>${g.v ? fmt(g.v) : "—"}</b></td><td>${g.v ? fmt(g.c) : "—"}</td><td>${g.v ? fmt(g.ch) : "—"}</td><td>${g.s && g.v ? vnd(g.s / g.v) : "—"}</td></tr>`;
+  $("#s3t").innerHTML = show.length ? `<table><thead><tr><th>${T[L].t_camp}</th><th>${T[L].t_spend}</th><th>${T[L].t_imp}</th><th>${T[L].t_clk}</th><th>${T[L].t_visit}</th><th>${T[L].m_cart}</th><th>${T[L].m_chk}</th><th>${T[L].t_cpv}</th></tr></thead><tbody>${show.map(tr).join("")}</tbody></table>` : `<p class="muted">—</p>`;
+  $("#s3upd").textContent = meta.updated ? T[L].upd + meta.updated + " · " + (meta.account || "") : "";
   $("#s3src").href = adminLink("sessions_over_time", qCamp(m));
 }
 
@@ -414,7 +449,7 @@ async function load() {
   const i = +$("#month").value, m = MONTHS[i];
   const prev = MONTHS[i + 1] || (() => { const s = new Date(m.y, m.m - 2, 1); return { s: iso(s), e: iso(new Date(m.y, m.m - 1, 0)) }; })();
   ["#s1t", "#s2t", "#s3t"].forEach(s => $(s).innerHTML = `<p class="muted">${T[L].loading}</p>`);
-  ["#s1k", "#s1c", "#s2c", "#s3c"].forEach(s => $(s).innerHTML = "");
+  ["#s1k", "#s1c", "#s2c", "#s3c", "#s3k"].forEach(s => $(s).innerHTML = "");
   loadS1Chart(m).catch(e => $("#s1c").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS3(m).catch(e => $("#s3t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS1(m, prev).catch(e => $("#s1t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
