@@ -7,7 +7,7 @@
 <title>Báo cáo kinh doanh</title>
 <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
 <style>
-  :root{--bg:#f1f1f1;--card:#fff;--ink:#303030;--mute:#616161;--line:#e3e3e3;--accent:#005bd3;--good:#0a7d3e;--bad:#b42318;--soft:#f6f6f7}
+  :root{--s1:#2a78d6;--s2:#eb6834;--grid:#e1e0d9;--axis:#898781;--bg:#f1f1f1;--card:#fff;--ink:#303030;--mute:#616161;--line:#e3e3e3;--accent:#005bd3;--good:#0a7d3e;--bad:#b42318;--soft:#f6f6f7}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
   .wrap{max-width:1100px;margin:0 auto;padding:20px 16px 48px}
@@ -46,6 +46,13 @@
   .warn{background:#fff4e5;border:1px solid #ffd79d;border-radius:8px;padding:8px 12px;font-size:13px;margin-top:10px}
   .err{color:var(--bad)}
   .muted{color:var(--mute)}
+  .chart{position:relative;margin:4px 0 14px}
+  .chart svg{display:block;width:100%;height:auto;overflow:visible}
+  .chart-h{font-size:13px;font-weight:600;margin:8px 0 2px}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--mute);margin:2px 0 6px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .tip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--line);box-shadow:0 4px 12px rgba(0,0,0,.12);border-radius:8px;padding:6px 10px;font-size:12px;white-space:nowrap;display:none;z-index:5}
+  .grid2{display:grid;grid-template-columns:1fr;gap:4px}
 </style>
 </head>
 <body>
@@ -79,6 +86,9 @@
       <li data-t="s1a"></li><li data-t="s1b"></li><li data-t="s1c"></li><li data-t="s1d"></li>
     </ul></details>
     <div class="kpis" id="s1k"></div>
+    <p class="chart-h" data-t="c1h"></p>
+    <div class="legend"><span><i style="background:var(--s1)"></i>Online Store</span><span><i style="background:var(--s2)"></i>Draft Orders</span></div>
+    <div class="chart" id="s1c"></div>
     <div class="tbl" id="s1t"><p class="muted" data-t="loading"></p></div>
   </section>
 
@@ -90,7 +100,22 @@
     <details><summary data-t="how"></summary><ul>
       <li data-t="s2a"></li><li data-t="s2b"></li><li data-t="s2c"></li><li data-t="s2d"></li>
     </ul></details>
+    <p class="chart-h" data-t="c2h"></p>
+    <div class="chart" id="s2c"></div>
     <div class="tbl" id="s2t"><p class="muted" data-t="loading"></p></div>
+  </section>
+
+  <section id="s3">
+    <div class="sec-h">
+      <h2><span class="num">3</span><span data-t="s3h"></span></h2>
+      <a class="src" id="s3src" target="_top" data-t="open"></a>
+    </div>
+    <details><summary data-t="how"></summary><ul>
+      <li data-t="s3a"></li><li data-t="s3b"></li><li data-t="s3c"></li><li data-t="s3d"></li>
+    </ul></details>
+    <p class="chart-h" data-t="c3h"></p>
+    <div class="chart" id="s3c"></div>
+    <div class="tbl" id="s3t"><p class="muted" data-t="loading"></p></div>
     <div class="warn" data-t="s2warn"></div>
   </section>
 
@@ -108,6 +133,15 @@ const T = {
     g3: "Muốn tự kiểm: bấm “Mở báo cáo gốc trong Shopify” — Shopify hiện đúng các số này với cùng khoảng ngày.",
     s1h: "Doanh thu tháng",
     s2h: "Khách đến từ đâu và có mua không",
+    s3h: "Quảng cáo Facebook / Google theo từng chiến dịch",
+    c1h: "Doanh thu ròng 6 tháng gần nhất (triệu ₫) — rê chuột vào cột để xem số",
+    c2h: "Cần bao nhiêu lượt truy cập để có 1 đơn (càng ngắn càng tốt)",
+    c3h: "Lượt truy cập theo chiến dịch",
+    s3a: "Số đọc từ mã theo dõi (UTM) gắn trên link quảng cáo: nền tảng = utm_source, chiến dịch = utm_campaign.",
+    s3b: "Đếm theo LƯỢT TRUY CẬP: vào web → có thêm giỏ → tới trang thanh toán.",
+    s3c: "Shopify không gắn tên chiến dịch vào đơn hàng, nên bảng này chưa có cột Đơn. Đơn theo nguồn xem ở mục 2.",
+    s3d: "Chiến dịch có tên là dãy số là link Facebook gắn ID chiến dịch thay vì tên — nên thống nhất một chuẩn đặt UTM.",
+    t_src: "Nền tảng", t_med: "Loại", t_camp: "Chiến dịch", t_rate: "Tỉ lệ thêm giỏ", t_need: "lượt / 1 đơn", noutm: "(không có UTM)",
     open: "Mở báo cáo gốc trong Shopify ↗",
     how: "Cách đọc số",
     loading: "Đang tải số liệu…",
@@ -137,6 +171,15 @@ const T = {
     g3: "To check: click “Open the source report in Shopify” — Shopify shows the same figures for the same dates.",
     s1h: "Monthly sales",
     s2h: "Where visitors come from and whether they buy",
+    s3h: "Facebook / Google ads by campaign",
+    c1h: "Net sales, last 6 months (million ₫) — hover a bar for figures",
+    c2h: "Sessions needed for one order (shorter is better)",
+    c3h: "Sessions by campaign",
+    s3a: "Read from the tracking tags (UTM) on ad links: platform = utm_source, campaign = utm_campaign.",
+    s3b: "Counted in SESSIONS: visit → added to cart → reached checkout.",
+    s3c: "Shopify does not attach the campaign name to orders, so there is no Orders column here. Orders by source are in section 2.",
+    s3d: "Campaigns named as numbers are Facebook links carrying the campaign ID instead of its name — one UTM naming standard is recommended.",
+    t_src: "Platform", t_med: "Type", t_camp: "Campaign", t_rate: "Add-to-cart rate", t_need: "sessions / order", noutm: "(no UTM)",
     open: "Open the source report in Shopify ↗",
     how: "How to read",
     loading: "Loading…",
@@ -277,14 +320,103 @@ async function loadS2(m) {
   const tr = (r, cls = "") => `<tr class="${cls}"><td>${esc(r._name || keyName(r.k))}</td><td>${fmt(num(r.sessions))}</td><td>${fmt(num(r.sessions_with_cart_additions))}</td><td>${fmt(num(r.sessions_that_reached_checkout))}</td><td><b>${fmt(num(r.orders))}</b></td><td><b>${vnd(num(r.net_sales))}</b></td></tr>`;
   const tot = Object.assign({ _name: T[L].total }, stot, otot);
   $("#s2t").innerHTML = `<table><thead><tr><th>${T[L].m_channel}</th><th>${T[L].m_sessions}</th><th>${T[L].m_cart}</th><th>${T[L].m_chk}</th><th>${T[L].m_ord}</th><th>${T[L].m_net}</th></tr></thead><tbody>${keep.map(r => tr(r)).join("")}${restRow ? tr(restRow) : ""}${tr(tot, "tot")}</tbody></table>`;
+  const need = all.filter(r => r.k !== "_none" && r.orders > 0).map(r => ({ label: keyName(r.k), value: r.sessions / r.orders, text: fmt(r.sessions / r.orders) + " " + T[L].t_need, tip: `${T[L].m_sessions}: ${fmt(r.sessions)}<br>${T[L].m_ord}: ${fmt(r.orders)}<br>${fmt(r.sessions / r.orders)} ${T[L].t_need}` })).sort((a, b) => b.value - a.value);
+  hBars($("#s2c"), need, "var(--s2)");
   $("#s2src").href = adminLink("sessions_over_time", qSrc(m));
+}
+
+// ---- Biểu đồ SVG tự vẽ (không thư viện) ----
+const SVGNS = "http://www.w3.org/2000/svg";
+function tipFor(el) { let t = el.querySelector(".tip"); if (!t) { t = document.createElement("div"); t.className = "tip"; el.appendChild(t); } return t; }
+function bindTip(el, node, html) {
+  const tip = tipFor(el);
+  node.addEventListener("mousemove", e => { const r = el.getBoundingClientRect(); tip.innerHTML = html; tip.style.display = "block"; tip.style.left = Math.min(e.clientX - r.left + 12, r.width - tip.offsetWidth - 4) + "px"; tip.style.top = (e.clientY - r.top - tip.offsetHeight - 10) + "px"; });
+  node.addEventListener("mouseleave", () => tip.style.display = "none");
+}
+const topRound = (x, y, w, h, r) => h <= 0 ? "" : `M${x},${y + h}V${y + Math.min(r, h)}Q${x},${y} ${x + Math.min(r, w / 2)},${y}H${x + w - Math.min(r, w / 2)}Q${x + w},${y} ${x + w},${y + Math.min(r, h)}V${y + h}Z`;
+
+function stackedBars(el, cats, series, selIdx) {
+  const W = 760, H = 250, L0 = 44, B = 26, T = 22, R = 8;
+  const sums = cats.map((_, i) => series.reduce((a, s) => a + (s.values[i] || 0), 0));
+  const max = Math.max(...sums, 1) * 1.15, iw = W - L0 - R, ih = H - T - B, band = iw / cats.length, bw = Math.min(56, band * 0.55);
+  const y = v => T + ih - v / max * ih;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for (let k = 0; k <= 4; k++) { const v = max / 4 * k, yy = y(v); s += `<line x1="${L0}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="var(--grid)" stroke-width="1"/><text x="${L0 - 6}" y="${yy + 4}" text-anchor="end" font-size="11" fill="var(--axis)">${fmt(v / 1e6)}</text>`; }
+  cats.forEach((c, i) => {
+    const x = L0 + band * i + (band - bw) / 2; let base = 0, segs = "";
+    series.forEach((ser, j) => {
+      const v = ser.values[i] || 0; if (!v) return;
+      const y0 = y(base), y1 = y(base + v), gap = base > 0 ? 2 : 0, h = Math.max(0, y0 - y1 - gap);
+      const isTop = series.slice(j + 1).every(z => !(z.values[i] > 0));
+      segs += isTop ? `<path d="${topRound(x, y1, bw, h, 4)}" fill="${ser.color}"/>` : `<rect x="${x}" y="${y1}" width="${bw}" height="${h}" fill="${ser.color}"/>`;
+      base += v;
+    });
+    s += `<g opacity="${selIdx == null || selIdx === i ? 1 : 0.45}">${segs}</g>`;
+    s += `<text x="${x + bw / 2}" y="${y(sums[i]) - 6}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">${fmt(sums[i] / 1e6)}</text>`;
+    s += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--axis)" ${selIdx === i ? 'font-weight="700"' : ""}>${esc(c)}</text>`;
+    s += `<rect class="hit" data-i="${i}" x="${L0 + band * i}" y="${T}" width="${band}" height="${ih}" fill="transparent"/>`;
+  });
+  s += `<line x1="${L0}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="#c3c2b7"/></svg>`;
+  el.innerHTML = s;
+  el.querySelectorAll(".hit").forEach(h => { const i = +h.dataset.i; bindTip(el, h, `<b>${esc(cats[i])}</b><br>${series.map(z => `<span style="color:${z.color}">■</span> ${esc(z.name)}: ${vnd(z.values[i] || 0)}`).join("<br>")}<br>${T[L].total}: <b>${vnd(sums[i])}</b>`); });
+}
+
+function hBars(el, items, color) {
+  if (!items.length) { el.innerHTML = ""; return; }
+  const W = 760, LW = 250, R = 110, rowH = 30, H = items.length * rowH + 6;
+  const max = Math.max(...items.map(i => i.value), 1), iw = W - LW - R;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  items.forEach((it, i) => {
+    const yy = 4 + i * rowH, w = Math.max(2, it.value / max * iw);
+    const lab = it.label.length > 38 ? it.label.slice(0, 36) + "…" : it.label;
+    s += `<text x="${LW - 8}" y="${yy + 17}" text-anchor="end" font-size="12" fill="var(--ink)">${esc(lab)}</text>`;
+    s += `<path d="M${LW},${yy + 5}H${LW + w - 4}Q${LW + w},${yy + 5} ${LW + w},${yy + 9}V${yy + 19}Q${LW + w},${yy + 23} ${LW + w - 4},${yy + 23}H${LW}Z" fill="${color}"/>`;
+    s += `<text x="${LW + w + 6}" y="${yy + 18}" font-size="12" fill="var(--mute)">${esc(it.text)}</text>`;
+    s += `<rect class="hit" data-i="${i}" x="0" y="${yy}" width="${W}" height="${rowH}" fill="transparent"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+  el.querySelectorAll(".hit").forEach(h => { const it = items[+h.dataset.i]; bindTip(el, h, `<b>${esc(it.label)}</b><br>${it.tip || esc(it.text)}`); });
+}
+
+const qTrend = (s, e) => `FROM sales
+  SHOW net_sales
+  GROUP BY sales_channel TIMESERIES month
+  SINCE ${s} UNTIL ${e}`;
+async function loadS1Chart(m) {
+  const s = iso(new Date(m.y, m.m - 6, 1));
+  const rows = await ql(qTrend(s, m.e));
+  const months = [...new Set(rows.map(r => r.month))].sort();
+  const lab = d => { const [y, mo] = d.split("-"); return L === "vi" ? "T" + (+mo) + "/" + y.slice(2) : new Date(+y, +mo - 1, 1).toLocaleString("en", { month: "short" }) + " " + y.slice(2); };
+  const val = (ch, mo) => num((rows.find(r => r.month === mo && r.sales_channel === ch) || {}).net_sales) || 0;
+  stackedBars($("#s1c"), months.map(lab), [
+    { name: "Online Store", color: "var(--s1)", values: months.map(mo => val("Online Store", mo)) },
+    { name: "Draft Orders", color: "var(--s2)", values: months.map(mo => val("Draft Orders", mo)) }
+  ], months.length - 1);
+}
+
+const qCamp = (m) => `FROM sessions
+  SHOW sessions, sessions_with_cart_additions, sessions_that_reached_checkout
+  GROUP BY utm_source, utm_medium, utm_campaign
+  WHERE utm_campaign IS NOT NULL
+  SINCE ${m.s} UNTIL ${m.e}
+  ORDER BY sessions DESC
+  LIMIT 1000`;
+async function loadS3(m) {
+  const rows = await ql(qCamp(m));
+  const top = rows.slice(0, 10);
+  hBars($("#s3c"), top.map(r => ({ label: r.utm_campaign, value: num(r.sessions) || 0, text: fmt(num(r.sessions)), tip: `${esc(r.utm_source || "")} / ${esc(r.utm_medium || "")}<br>${T[L].m_sessions}: ${fmt(num(r.sessions))}<br>${T[L].m_cart}: ${fmt(num(r.sessions_with_cart_additions))}<br>${T[L].m_chk}: ${fmt(num(r.sessions_that_reached_checkout))}` })), "var(--s1)");
+  const tr = r => { const s = num(r.sessions), c = num(r.sessions_with_cart_additions); return `<tr><td>${esc(r.utm_campaign)}</td><td>${esc(r.utm_source || "—")}</td><td>${esc(r.utm_medium || "—")}</td><td>${fmt(s)}</td><td>${fmt(c)}</td><td>${fmt(num(r.sessions_that_reached_checkout))}</td><td>${s ? pct(c / s) : "—"}</td></tr>`; };
+  $("#s3t").innerHTML = rows.length ? `<table><thead><tr><th>${T[L].t_camp}</th><th>${T[L].t_src}</th><th>${T[L].t_med}</th><th>${T[L].m_sessions}</th><th>${T[L].m_cart}</th><th>${T[L].m_chk}</th><th>${T[L].t_rate}</th></tr></thead><tbody>${top.map(tr).join("")}</tbody></table>${rows.length > 10 ? `<p class="note">+ ${rows.length - 10} ${T[L].others.toLowerCase()}</p>` : ""}` : `<p class="muted">—</p>`;
+  $("#s3src").href = adminLink("sessions_over_time", qCamp(m));
 }
 
 async function load() {
   const i = +$("#month").value, m = MONTHS[i];
   const prev = MONTHS[i + 1] || (() => { const s = new Date(m.y, m.m - 2, 1); return { s: iso(s), e: iso(new Date(m.y, m.m - 1, 0)) }; })();
-  ["#s1t", "#s2t"].forEach(s => $(s).innerHTML = `<p class="muted">${T[L].loading}</p>`);
-  $("#s1k").innerHTML = "";
+  ["#s1t", "#s2t", "#s3t"].forEach(s => $(s).innerHTML = `<p class="muted">${T[L].loading}</p>`);
+  ["#s1k", "#s1c", "#s2c", "#s3c"].forEach(s => $(s).innerHTML = "");
+  loadS1Chart(m).catch(e => $("#s1c").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
+  loadS3(m).catch(e => $("#s3t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS1(m, prev).catch(e => $("#s1t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS2(m).catch(e => $("#s2t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
 }
