@@ -107,7 +107,7 @@ const T = {
     g2: "Mỗi mục có “Cách đọc số” giải thích con số lấy ở đâu và tính thế nào.",
     g3: "Muốn tự kiểm: bấm “Mở báo cáo gốc trong Shopify” — Shopify hiện đúng các số này với cùng khoảng ngày.",
     s1h: "Doanh thu tháng",
-    s2h: "Kênh đưa khách tới và đơn hàng",
+    s2h: "Khách đến từ đâu và có mua không",
     open: "Mở báo cáo gốc trong Shopify ↗",
     how: "Cách đọc số",
     loading: "Đang tải số liệu…",
@@ -115,16 +115,16 @@ const T = {
     s1b: "Online Store = khách tự đặt trên website. Draft Orders = đơn nhân viên tạo tay (chat Facebook, sự kiện…).",
     s1c: "Hoàn trả được tính vào tháng phát sinh hoàn trả, không phải tháng đặt đơn. Đơn thử đã huỷ nằm ở cột này.",
     s1d: "Ô so sánh là so với tháng liền trước, cùng cách tính.",
-    s2a: "Mỗi đơn được ghi cho kênh của lần bấm gần nhất trước khi mua, không tính lần vào thẳng web (Shopify gọi là “last non-direct click”).",
-    s2b: "Vì cách ghi này, số đơn ở đây có thể khác số đơn Meta/Google tự báo — hai nền tảng đó tự tính theo cách riêng (kể cả người chỉ xem quảng cáo).",
-    s2c: "Tiền chi quảng cáo chỉ có khi nền tảng gửi về Shopify. Hiện chỉ TikTok gửi; Meta và Google chưa gửi.",
-    s2d: "Lượt truy cập có thể là người thật hoặc máy quét; Shopify đã lọc bớt máy quét từ 21/09/2026.",
-    s2warn: "Lưu ý: tiền chi TikTok chủ yếu cho bán hàng trên TikTok Shop, không đưa khách về website — đừng chia doanh thu web cho số tiền này. Tiền chi Meta/Google hiện chưa có trong Shopify nên ô Tiền chi của hai kênh này để trống.",
+    s2a: "Mỗi dòng là một nguồn đưa khách vào website (Facebook, Google, vào thẳng…). Cả bảng chỉ dùng một cách đếm: theo LƯỢT TRUY CẬP.",
+    s2b: "Đọc từ trái sang phải: vào web → thêm vào giỏ → tới trang thanh toán → thanh toán xong. Cột cuối = thanh toán xong ÷ lượt truy cập.",
+    s2c: "“Thanh toán xong” đếm theo lượt, nên có thể khác số đơn ở mục 1 một chút (một khách vào nhiều lượt, hoặc đơn tạo tay không có lượt truy cập).",
+    s2d: "“Không ghi nguồn” là các lượt Shopify không biết khách đến từ đâu, thường là khách mở thẳng link thanh toán.",
+    s2warn: "Tiền chi quảng cáo Meta và Google hiện chưa được gửi về Shopify, nên bảng này chưa có cột tiền chi. Khi có số tiền chi từng tháng, có thể thêm cột “Chi phí cho mỗi đơn” ngay trong bảng.",
     foot: "Số liệu từ Shopify Analytics, cửa hàng Dermalogica Vietnam, đơn vị VND. Bản demo.",
     k_net: "Doanh thu ròng", k_ord: "Số đơn", k_aov: "Giá trị TB/đơn", k_web: "Trong đó: đặt trên web",
     vsPrev: "so với tháng trước", total: "Tổng",
     c_channel: "Kênh bán", c_orders: "Đơn", c_gross: "Tiền hàng", c_disc: "Giảm giá", c_ret: "Hoàn trả", c_net: "Doanh thu ròng", c_aov: "TB/đơn",
-    m_channel: "Kênh đưa khách tới", m_sessions: "Lượt truy cập", m_orders: "Đơn", m_sales: "Doanh thu", m_cr: "Tỉ lệ ra đơn", m_spend: "Tiền chi QC", m_roas: "Doanh thu / tiền chi",
+    m_channel: "Nguồn khách", m_sessions: "Lượt truy cập", m_cart: "Thêm vào giỏ", m_chk: "Tới thanh toán", m_done: "Thanh toán xong", m_cr: "Tỉ lệ mua", nosrc: "Không ghi nguồn", direct: "Vào thẳng web",
     others: "Các nguồn khác", toDate: " (tới hôm nay)", monthLbl: "Tháng",
     err: "Không đọc được số liệu: "
   },
@@ -136,7 +136,7 @@ const T = {
     g2: "Each section has “How to read” explaining where each figure comes from.",
     g3: "To check: click “Open the source report in Shopify” — Shopify shows the same figures for the same dates.",
     s1h: "Monthly sales",
-    s2h: "Traffic channels and orders",
+    s2h: "Where visitors come from and whether they buy",
     open: "Open the source report in Shopify ↗",
     how: "How to read",
     loading: "Loading…",
@@ -144,16 +144,16 @@ const T = {
     s1b: "Online Store = customers ordering on the website. Draft Orders = orders created by staff (Facebook chat, events…).",
     s1c: "Returns are counted in the month the return happens, not the order month. Cancelled test orders appear here.",
     s1d: "Comparisons are against the previous month, same method.",
-    s2a: "Each order is credited to the last click before purchase, ignoring direct visits (Shopify's “last non-direct click”).",
-    s2b: "Because of this, order counts may differ from what Meta/Google report — those platforms use their own rules (including view-through).",
-    s2c: "Ad spend only appears when the platform sends it to Shopify. Currently only TikTok does; Meta and Google do not.",
-    s2d: "Sessions may include bots; Shopify filters more bots since 21 Sep 2026.",
-    s2warn: "Note: TikTok spend mostly drives TikTok Shop sales, not website visits — do not divide web sales by it. Meta/Google spend is not in Shopify yet, so their spend cells are empty.",
+    s2a: "Each row is a source that brings visitors to the website (Facebook, Google, direct…). The whole table uses one counting method: SESSIONS.",
+    s2b: "Read left to right: visit → add to cart → reach checkout → complete checkout. Last column = completed checkouts ÷ sessions.",
+    s2c: "“Completed checkout” is counted per session, so it can differ slightly from orders in section 1 (one shopper with several visits, or staff-created orders with no visit).",
+    s2d: "“No source” means Shopify could not tell where the visit came from, usually a shopper opening a checkout link directly.",
+    s2warn: "Meta and Google ad spend is not sent to Shopify yet, so this table has no spend column. Once monthly spend is available, a “cost per order” column can be added here.",
     foot: "Data from Shopify Analytics, Dermalogica Vietnam store, in VND. Demo version.",
     k_net: "Net sales", k_ord: "Orders", k_aov: "Avg. order value", k_web: "Of which: website",
     vsPrev: "vs previous month", total: "Total",
     c_channel: "Sales channel", c_orders: "Orders", c_gross: "Gross sales", c_disc: "Discounts", c_ret: "Returns", c_net: "Net sales", c_aov: "AOV",
-    m_channel: "Traffic channel", m_sessions: "Sessions", m_orders: "Orders", m_sales: "Sales", m_cr: "Conversion", m_spend: "Ad spend", m_roas: "Sales / spend",
+    m_channel: "Source", m_sessions: "Sessions", m_cart: "Added to cart", m_chk: "Reached checkout", m_done: "Completed checkout", m_cr: "Conversion", nosrc: "No source", direct: "Direct",
     others: "Other sources", toDate: " (to date)", monthLbl: "Month",
     err: "Could not load data: "
   }
@@ -209,19 +209,19 @@ const qSales = (m) => `FROM sales
   GROUP BY sales_channel WITH TOTALS
   SINCE ${m.s} UNTIL ${m.e}
   ORDER BY net_sales DESC`;
-const qMkt = (m) => `FROM sessions, sales, marketing_engagements
-  SHOW total_sales, sessions, orders, (orders / sessions) AS conversion_rate, engagements_ad_spend, (total_sales / engagements_ad_spend) AS ROAS
-  GROUP BY marketing_channel WITH LAST_NON_DIRECT_CLICK_ATTRIBUTION, TOTALS
+const qSrc = (m) => `FROM sessions
+  SHOW sessions, sessions_with_cart_additions, sessions_that_reached_checkout, sessions_that_completed_checkout
+  GROUP BY referrer_source, referrer_name WITH TOTALS
   SINCE ${m.s} UNTIL ${m.e}
-  ORDER BY total_sales__last_non_direct_click DESC, sessions DESC
+  ORDER BY sessions DESC
   LIMIT 1000`;
 
-function pick(row, base) { // cột có hậu tố ghi nhận (vd total_sales__last_non_direct_click)
-  if (base in row) return row[base];
-  const k = Object.keys(row).find(k => k.startsWith(base + "__") && !k.includes("totals"));
-  return k ? row[k] : undefined;
+// API trả tổng ở các cột "<tên>__totals" trên mỗi dòng
+function totals(rows, cols) {
+  const r0 = rows[0] || {}, o = {};
+  cols.forEach(c => o[c] = r0[c + "__totals"]);
+  return o;
 }
-function isTotalRow(row, dim) { return row[dim] == null || row[dim] === "" ; }
 function delta(cur, prev) {
   if (!prev) return "";
   const d = (cur - prev) / prev, cls = d >= 0 ? "up" : "down";
@@ -230,9 +230,9 @@ function delta(cur, prev) {
 
 async function loadS1(m, prev) {
   const [rows, prow] = await Promise.all([ql(qSales(m)), ql(qSales(prev))]);
-  const tot = rows.find(r => isTotalRow(r, "sales_channel")) || {};
-  const ptot = prow.find(r => isTotalRow(r, "sales_channel")) || {};
-  const body = rows.filter(r => !isTotalRow(r, "sales_channel"));
+  const C = ["orders", "gross_sales", "discounts", "returns", "net_sales", "average_order_value"];
+  const tot = totals(rows, C), ptot = totals(prow, C);
+  const body = rows;
   const web = body.find(r => r.sales_channel === "Online Store") || {};
   const pweb = prow.find(r => r.sales_channel === "Online Store") || {};
   $("#s1k").innerHTML = [
@@ -246,20 +246,28 @@ async function loadS1(m, prev) {
   $("#s1src").href = adminLink("net_sales_over_time", qSales(m));
 }
 
+const NAMES = { facebook: "Facebook", instagram: "Instagram", google: "Google", bing: "Bing", coccoc: "Cốc Cốc", tiktok: "TikTok", zalo: "Zalo", youtube: "YouTube", chatgpt: "ChatGPT" };
+function srcName(r) {
+  if (!r.referrer_source && !r.referrer_name) return T[L].nosrc;
+  if (r.referrer_source === "direct") return T[L].direct;
+  const n = (r.referrer_name || "").toLowerCase();
+  return NAMES[n] || r.referrer_name || r.referrer_source;
+}
+
 async function loadS2(m) {
-  const rows = await ql(qMkt(m));
-  const tot = rows.find(r => isTotalRow(r, "marketing_channel")) || {};
-  let body = rows.filter(r => !isTotalRow(r, "marketing_channel"));
-  const keep = body.filter((r, i) => i < 8 || num(pick(r, "engagements_ad_spend")) > 0 || num(pick(r, "orders")) > 0);
-  const rest = body.filter(r => !keep.includes(r));
-  const restRow = rest.length ? { marketing_channel: T[L].others + " (" + rest.length + ")", sessions: rest.reduce((a, r) => a + (num(r.sessions) || 0), 0), _o: 0, _s: 0 } : null;
+  const C = ["sessions", "sessions_with_cart_additions", "sessions_that_reached_checkout", "sessions_that_completed_checkout"];
+  const rows = await ql(qSrc(m));
+  const tot = totals(rows, C);
+  const keep = rows.filter((r, i) => i < 6 || num(r.sessions_that_completed_checkout) > 0);
+  const rest = rows.filter(r => !keep.includes(r));
+  const sum = (arr, c) => arr.reduce((a, r) => a + (num(r[c]) || 0), 0);
+  const restRow = rest.length ? Object.fromEntries([["_name", T[L].others + " (" + rest.length + ")"], ...C.map(c => [c, sum(rest, c)])]) : null;
   const tr = (r, cls = "") => {
-    const spend = num(pick(r, "engagements_ad_spend")), sales = num(pick(r, "total_sales")), orders = num(pick(r, "orders"));
-    const roas = spend ? sales / spend : null;
-    return `<tr class="${cls}"><td>${r.marketing_channel || T[L].total}</td><td>${fmt(num(r.sessions))}</td><td>${fmt(orders ?? r._o)}</td><td>${vnd(sales ?? r._s)}</td><td>${pct(num(pick(r, "conversion_rate")))}</td><td>${spend ? vnd(spend) : "—"}</td><td>${roas != null && cls !== "tot" ? roas.toFixed(2) : "—"}</td></tr>`;
+    const s = num(r.sessions), d = num(r.sessions_that_completed_checkout);
+    return `<tr class="${cls}"><td>${r._name || srcName(r)}</td><td>${fmt(s)}</td><td>${fmt(num(r.sessions_with_cart_additions))}</td><td>${fmt(num(r.sessions_that_reached_checkout))}</td><td><b>${fmt(d)}</b></td><td>${s ? pct(d / s) : "—"}</td></tr>`;
   };
-  $("#s2t").innerHTML = `<table><thead><tr><th>${T[L].m_channel}</th><th>${T[L].m_sessions}</th><th>${T[L].m_orders}</th><th>${T[L].m_sales}</th><th>${T[L].m_cr}</th><th>${T[L].m_spend}</th><th>${T[L].m_roas}</th></tr></thead><tbody>${keep.map(r => tr(r)).join("")}${restRow ? tr(restRow) : ""}${tr(tot, "tot")}</tbody></table>`;
-  $("#s2src").href = adminLink("performance_by_marketing_channel", qMkt(m));
+  $("#s2t").innerHTML = `<table><thead><tr><th>${T[L].m_channel}</th><th>${T[L].m_sessions}</th><th>${T[L].m_cart}</th><th>${T[L].m_chk}</th><th>${T[L].m_done}</th><th>${T[L].m_cr}</th></tr></thead><tbody>${keep.map(r => tr(r)).join("")}${restRow ? tr(restRow) : ""}${tr(Object.assign({ _name: T[L].total }, tot), "tot")}</tbody></table>`;
+  $("#s2src").href = adminLink("sessions_over_time", qSrc(m));
 }
 
 async function load() {
