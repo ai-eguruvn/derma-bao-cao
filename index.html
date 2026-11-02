@@ -336,10 +336,10 @@ function bindTip(el, node, html) {
 const topRound = (x, y, w, h, r) => h <= 0 ? "" : `M${x},${y + h}V${y + Math.min(r, h)}Q${x},${y} ${x + Math.min(r, w / 2)},${y}H${x + w - Math.min(r, w / 2)}Q${x + w},${y} ${x + w},${y + Math.min(r, h)}V${y + h}Z`;
 
 function stackedBars(el, cats, series, selIdx) {
-  const W = 760, H = 250, L0 = 44, B = 26, T = 22, R = 8;
+  const W = 760, H = 250, L0 = 44, B = 26, TP = 22, R = 8;
   const sums = cats.map((_, i) => series.reduce((a, s) => a + (s.values[i] || 0), 0));
-  const max = Math.max(...sums, 1) * 1.15, iw = W - L0 - R, ih = H - T - B, band = iw / cats.length, bw = Math.min(56, band * 0.55);
-  const y = v => T + ih - v / max * ih;
+  const max = Math.max(...sums, 1) * 1.15, iw = W - L0 - R, ih = H - TP - B, band = iw / cats.length, bw = Math.min(56, band * 0.55);
+  const y = v => TP + ih - v / max * ih;
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
   for (let k = 0; k <= 4; k++) { const v = max / 4 * k, yy = y(v); s += `<line x1="${L0}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="var(--grid)" stroke-width="1"/><text x="${L0 - 6}" y="${yy + 4}" text-anchor="end" font-size="11" fill="var(--axis)">${fmt(v / 1e6)}</text>`; }
   cats.forEach((c, i) => {
@@ -354,7 +354,7 @@ function stackedBars(el, cats, series, selIdx) {
     s += `<g opacity="${selIdx == null || selIdx === i ? 1 : 0.45}">${segs}</g>`;
     s += `<text x="${x + bw / 2}" y="${y(sums[i]) - 6}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">${fmt(sums[i] / 1e6)}</text>`;
     s += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--axis)" ${selIdx === i ? 'font-weight="700"' : ""}>${esc(c)}</text>`;
-    s += `<rect class="hit" data-i="${i}" x="${L0 + band * i}" y="${T}" width="${band}" height="${ih}" fill="transparent"/>`;
+    s += `<rect class="hit" data-i="${i}" x="${L0 + band * i}" y="${TP}" width="${band}" height="${ih}" fill="transparent"/>`;
   });
   s += `<line x1="${L0}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="#c3c2b7"/></svg>`;
   el.innerHTML = s;
