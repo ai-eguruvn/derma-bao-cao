@@ -86,6 +86,9 @@
       <li data-t="s1a"></li><li data-t="s1b"></li><li data-t="s1c"></li><li data-t="s1d"></li>
     </ul></details>
     <div class="kpis" id="s1k"></div>
+    <p class="chart-h" data-t="c0h"></p>
+    <div class="legend"><span><i style="background:var(--s1)"></i><span id="lgCur"></span></span><span><i style="background:#b5b4ad"></i><span id="lgPrev"></span></span></div>
+    <div class="chart" id="s1d"></div>
     <p class="chart-h" data-t="c1h"></p>
     <div class="legend"><span><i style="background:var(--s1)"></i>Online Store</span><span><i style="background:var(--s2)"></i>Draft Orders</span></div>
     <div class="chart" id="s1c"></div>
@@ -137,6 +140,7 @@ const T = {
     s2h: "Khách đến từ đâu và có mua không",
     s3h: "Quảng cáo Facebook: tiền chi và kết quả trên web",
     c1h: "Doanh thu ròng 6 tháng gần nhất (triệu ₫) — rê chuột vào cột để xem số",
+    c0h: "Doanh thu ròng cộng dồn theo ngày: tháng đang chọn so với tháng trước (triệu ₫)", day: "Ngày",
     c2h: "Cần bao nhiêu lượt truy cập để có 1 đơn (càng ngắn càng tốt)",
     c3h: "Tiền chi theo chiến dịch (triệu ₫)",
     s3a: "Tiền chi, lượt hiển thị, lượt bấm link: lấy từ Meta Ads Manager, tài khoản Dermalogica Official. Lượt truy cập, thêm giỏ, tới thanh toán: Shopify, ghép theo tên chiến dịch (mã UTM trên link quảng cáo).",
@@ -179,6 +183,7 @@ const T = {
     s2h: "Where visitors come from and whether they buy",
     s3h: "Facebook ads: spend and website results",
     c1h: "Net sales, last 6 months (million ₫) — hover a bar for figures",
+    c0h: "Cumulative net sales by day: selected month vs previous month (million ₫)", day: "Day",
     c2h: "Sessions needed for one order (shorter is better)",
     c3h: "Spend by campaign (million ₫)",
     s3a: "Spend, impressions, link clicks: Meta Ads Manager, account Dermalogica Official. Sessions, add to cart, checkout: Shopify, matched by campaign name (UTM tag on the ad link).",
@@ -388,6 +393,35 @@ function hBars(el, items, color) {
   el.querySelectorAll(".hit").forEach(h => { const it = items[+h.dataset.i]; bindTip(el, h, `<b>${esc(it.label)}</b><br>${it.tip || esc(it.text)}`); });
 }
 
+function lineCompare(el, cur, prev, labCur, labPrev) {
+  const W = 760, H = 230, L0 = 44, B = 24, TP = 14, R = 12, n = Math.max(cur.length, prev.length, 28);
+  const max = Math.max(...cur, ...prev, 1) * 1.1, iw = W - L0 - R, ih = H - TP - B;
+  const x = i => L0 + (n === 1 ? 0 : i / (n - 1) * iw), y = v => TP + ih - v / max * ih;
+  const path = arr => arr.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + "," + y(v).toFixed(1)).join("");
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for (let k = 0; k <= 4; k++) { const v = max / 4 * k, yy = y(v); s += `<line x1="${L0}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="var(--grid)"/><text x="${L0 - 6}" y="${yy + 4}" text-anchor="end" font-size="11" fill="var(--axis)">${fmt(v / 1e6)}</text>`; }
+  [1, 5, 10, 15, 20, 25, 30].filter(d => d <= n).forEach(d => s += `<text x="${x(d - 1)}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--axis)">${d}</text>`);
+  s += `<path d="${path(prev)}" fill="none" stroke="#b5b4ad" stroke-width="2"/><path d="${path(cur)}" fill="none" stroke="var(--s1)" stroke-width="2"/>`;
+  if (cur.length) { const i = cur.length - 1; s += `<circle cx="${x(i)}" cy="${y(cur[i])}" r="4" fill="var(--s1)" stroke="#fff" stroke-width="2"/><text x="${x(i) - 6}" y="${y(cur[i]) - 8}" text-anchor="end" font-size="11" font-weight="600" fill="var(--ink)">${fmt(cur[i] / 1e6)}</text>`; }
+  if (prev.length) { const i = prev.length - 1; s += `<text x="${x(i) - 6}" y="${y(prev[i]) - 8}" text-anchor="end" font-size="11" fill="var(--mute)">${fmt(prev[i] / 1e6)}</text>`; }
+  s += `<line class="xh" x1="0" x2="0" y1="${TP}" y2="${TP + ih}" stroke="#898781" stroke-dasharray="3 3" visibility="hidden"/>`;
+  for (let i = 0; i < n; i++) s += `<rect class="hit" data-i="${i}" x="${x(i) - iw / (n - 1) / 2}" y="${TP}" width="${iw / (n - 1)}" height="${ih}" fill="transparent"/>`;
+  el.innerHTML = s + "</svg>";
+  const xh = el.querySelector(".xh");
+  el.querySelectorAll(".hit").forEach(h => { const i = +h.dataset.i;
+    h.addEventListener("mouseenter", () => { xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("visibility", "visible"); });
+    h.addEventListener("mouseleave", () => xh.setAttribute("visibility", "hidden"));
+    bindTip(el, h, `<b>${T[L].day} ${i + 1}</b><br><span style="color:var(--s1)">■</span> ${esc(labCur)}: ${i < cur.length ? vnd(cur[i]) : "—"}<br><span style="color:#b5b4ad">■</span> ${esc(labPrev)}: ${i < prev.length ? vnd(prev[i]) : "—"}`); });
+}
+const qDaily = (s, e) => `FROM sales SHOW net_sales TIMESERIES day SINCE ${s} UNTIL ${e}`;
+async function loadS1Daily(m, prev) {
+  const [a, b] = await Promise.all([ql(qDaily(m.s, m.e)), ql(qDaily(prev.s, prev.e))]);
+  const cum = rows => { const byDay = {}; rows.forEach(r => byDay[+String(r.day).slice(8, 10)] = num(r.net_sales) || 0); const last = Math.max(0, ...Object.keys(byDay).map(Number)); let t = 0, out = []; for (let d = 1; d <= last; d++) { t += byDay[d] || 0; out.push(t); } return out; };
+  const ml = (o) => { const [y, mo] = o.s.split("-"); return L === "vi" ? "Tháng " + (+mo) + "/" + y : new Date(+y, +mo - 1, 1).toLocaleString("en", { month: "long", year: "numeric" }); };
+  $("#lgCur").textContent = ml(m); $("#lgPrev").textContent = ml(prev);
+  lineCompare($("#s1d"), cum(a), cum(b), ml(m), ml(prev));
+}
+
 const qTrend = (s, e) => `FROM sales
   SHOW net_sales
   GROUP BY sales_channel TIMESERIES month
@@ -449,7 +483,8 @@ async function load() {
   const i = +$("#month").value, m = MONTHS[i];
   const prev = MONTHS[i + 1] || (() => { const s = new Date(m.y, m.m - 2, 1); return { s: iso(s), e: iso(new Date(m.y, m.m - 1, 0)) }; })();
   ["#s1t", "#s2t", "#s3t"].forEach(s => $(s).innerHTML = `<p class="muted">${T[L].loading}</p>`);
-  ["#s1k", "#s1c", "#s2c", "#s3c", "#s3k"].forEach(s => $(s).innerHTML = "");
+  ["#s1k", "#s1c", "#s1d", "#s2c", "#s3c", "#s3k"].forEach(s => $(s).innerHTML = "");
+  loadS1Daily(m, prev).catch(e => $("#s1d").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS1Chart(m).catch(e => $("#s1c").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS3(m).catch(e => $("#s3t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
   loadS1(m, prev).catch(e => $("#s1t").innerHTML = `<p class="err">${T[L].err}${esc(e.message)}</p>`);
